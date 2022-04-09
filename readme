@@ -1,1 +1,8 @@
 *2022.04.09 上海自03.28封城已经12天 但我们居民大多在03.18左右就居家隔离 不准外出 **这是代码首次提交**
+ 搭建环境遇到的问题:
+    1.Goland编译器中External Libraries的GOPATH一直是空的 确定了GOPATH引入的路径是对的 并且使用的是GOPATH而不是GOMODULE
+    最后发现问题是GOPATH路径中也需要bin pkg src这三个文件夹 新建文件夹后 External Libraries有了内容
+    2.cd进入GOPATH/src后 git clone xxx 拉取需要引用的扩展包 仍提示无法找到该扩展文件
+    最后发现问题是src路径下需要特定的文件名 github.com golang.org 之后下载扩展最好使用go get 带有完整的路径 不是扩展里的某个文件夹
+    3.如果go get拉取的扩展包不在GOPATH路径下 则是GOPATH路径设置的问题
+ 新增日志模块 log文件下相关代码
