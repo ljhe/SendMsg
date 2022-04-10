@@ -28,7 +28,7 @@ func Info(str string, param ...interface{}) {
 	Write(InfoLabel, str, param...)
 }
 
-// 日志写入文件
+// Write 日志写入文件
 func Write(label, str string, param ...interface{}) {
 	// 判断路径是否存在
 	if _, e := os.Stat(filePath); os.IsNotExist(e) {
