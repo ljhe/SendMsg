@@ -28,11 +28,10 @@ func initDb(dataSourceName string) error {
 		log.Err("database|db.Ping is err:%v", err)
 		return err
 	}
-	log.Info("initDb success! dataSourceName:%v", dataBaseName)
 	return nil
 }
 
-func getDataSourceName(dbName string) string {
+func getDataSourceName(dbName, userName, passWord, host string, port int) string {
 	str := fmt.Sprintf("%s:%s@tcp(%s:%d)/%s", userName, passWord, host, port, dbName)
 	str += "?charset=utf8&timeout=5s&parseTime=true&loc=Asia%2FShanghai"
 	return str
