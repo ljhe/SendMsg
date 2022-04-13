@@ -5,15 +5,15 @@ import (
 	"fmt"
 	// mysql驱动 必须引入
 	_ "github.com/go-sql-driver/mysql"
-	"sendMsg/log"
+	"sendMsg/logger"
 )
 
-func initDb(dataSourceName string) error {
+func initDb(dataSourceName string) (*sql.DB, error) {
 	// 创建sql.db连接池
 	db, err := sql.Open("mysql", dataSourceName)
 	if err != nil {
-		log.Err("database|initDb sql.Open is err:%v", err)
-		return err
+		logger.Err("database|initDb sql.Open is err:%v", err)
+		return nil, err
 	}
 	// 连接池最多同时打开的连接数(包括使用中+空闲连接)
 	db.SetMaxOpenConns(maxConn)
@@ -25,10 +25,10 @@ func initDb(dataSourceName string) error {
 	// 该方法在go 1.15版本之后引入 设置连接池里面的连接最大空闲时长
 	db.SetConnMaxIdleTime(maxIdleTime)
 	if err = db.Ping(); err != nil {
-		log.Err("database|db.Ping is err:%v", err)
-		return err
+		logger.Err("database|db.Ping is err:%v", err)
+		return nil, err
 	}
-	return nil
+	return db, nil
 }
 
 func getDataSourceName(dbName, userName, passWord, host string, port int) string {
