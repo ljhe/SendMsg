@@ -42,18 +42,19 @@ func InitDbModel() error {
 		logger.Info("db:%v init success", conf.dataBaseName)
 
 		dbMap := &gorp.DbMap{Db: db, Dialect: gorp.MySQLDialect{Engine: "InnoDB", Encoding: "UTF8"}}
-		//dbMap.TraceOn("[gorp]", log.New(os.Stdout, "myapp:", log.Lmicroseconds))
-		err = dbMap.CreateTablesIfNotExists()
-		if err != nil {
-			logger.Err("dbModel|InitDbModel createTablesIfNotExists is err:%v", err)
-			return err
-		}
+		//dbMap.TraceOn("[gorp]", log.New(os.Stdout, "sql:", log.Lmicroseconds))
 
 		if maps, ok := modelMap[conf.dataBaseName]; ok {
 			for _, m := range maps {
 				m.model.SetDbMap(dbMap)
 				m.initFunc(dbMap)
 			}
+		}
+
+		err = dbMap.CreateTablesIfNotExists()
+		if err != nil {
+			logger.Err("dbModel|InitDbModel createTablesIfNotExists is err:%v", err)
+			return err
 		}
 	}
 	return nil
