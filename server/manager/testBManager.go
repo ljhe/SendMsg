@@ -6,7 +6,7 @@ import (
 )
 
 type TestBManager struct {
-	manager.DefaultModuleManager
+	manager.DefaultModule
 }
 
 func NewTestBManager() *TestBManager {

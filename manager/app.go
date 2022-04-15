@@ -17,6 +17,27 @@ type Module interface {
 	MuCheck() error
 }
 
+type DefaultModule struct {
+}
+
+func (d DefaultModule) Init() error {
+	return nil
+}
+
+func (d DefaultModule) Start() error {
+	return nil
+}
+
+func (d DefaultModule) Run() {
+}
+
+func (d DefaultModule) Stop() {
+}
+
+func (d DefaultModule) MuCheck() error {
+	return nil
+}
+
 type DefaultModuleManager struct {
 	Module
 	Modules []Module
@@ -38,26 +59,27 @@ func (d *DefaultModuleManager) Init() error {
 			return err
 		}
 	}
-	logger.Info("这里是测试moduleLen:%d", len(d.Modules))
 	return nil
 }
 
 func (d *DefaultModuleManager) Start() error {
 	for i := 0; i < len(d.Modules); i++ {
+		clsName := fmt.Sprintf("%T", d.Modules[i])
+		dotIndex := strings.Index(clsName, ".") + 1
+		logger.Info("app|Start :%v", clsName[dotIndex:len(clsName)])
 		err := d.Modules[i].Start()
 		if err != nil {
 			return err
 		}
 	}
 
-	logger.Info("这里是调用了Start")
 	go func() {
 		defer func() {
 			if err := recover(); err != nil {
 				logger.Err("app|Start time:%v err:%v panic:%v", time.Now(), err, string(debug.Stack()))
 			}
 		}()
-		ticker := time.NewTicker(5 * time.Second)
+		ticker := time.NewTicker(5 * time.Minute)
 		for {
 			select {
 			case <-ticker.C:
@@ -85,7 +107,6 @@ func (d *DefaultModuleManager) Run() {
 	for i := 0; i < len(d.Modules); i++ {
 		d.Modules[i].Run()
 	}
-	logger.Debug("这里是测试")
 }
 
 func (d *DefaultModuleManager) Stop() {
@@ -104,6 +125,7 @@ func (d DefaultModuleManager) MuCheck() error {
 	return nil
 }
 
-func (d *DefaultModuleManager) AppendModel(module Module) {
+func (d *DefaultModuleManager) AppendModel(module Module) Module {
 	d.Modules = append(d.Modules, module)
+	return module
 }

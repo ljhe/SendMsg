@@ -6,7 +6,7 @@ import (
 )
 
 type TestManager struct {
-	manager.DefaultModuleManager
+	manager.DefaultModule
 }
 
 func NewTestManager() *TestManager {
@@ -19,5 +19,5 @@ func (t *TestManager) Init() error {
 
 func (t *TestManager) Test() {
 	logger.Info("这里是测试方法")
-	m.TestBManager.Test()
+	m.TestB.Test()
 }

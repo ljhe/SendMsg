@@ -4,11 +4,11 @@ import "sendMsg/manager"
 
 type ModuleManager struct {
 	*manager.DefaultModuleManager
-	Test         *TestManager
-	TestBManager *TestBManager
+	Test  *TestManager
+	TestB *TestBManager
 }
 
 func (m *ModuleManager) init() {
-	m.AppendModel(NewTestManager())
-	m.AppendModel(NewTestBManager())
+	m.Test = m.AppendModel(NewTestManager()).(*TestManager)
+	m.TestB = m.AppendModel(NewTestBManager()).(*TestBManager)
 }
