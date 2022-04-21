@@ -4,6 +4,7 @@ import (
 	"os"
 	"os/signal"
 	"sendMsg/db"
+	"sendMsg/libs/httpserver"
 	"sendMsg/manager"
 	"syscall"
 )
@@ -28,6 +29,10 @@ func (m *ModuleManager) Init() error {
 
 func (m *ModuleManager) Start() error {
 	err := m.DefaultModuleManager.Start()
+	if err != nil {
+		return err
+	}
+	err = httpserver.HttpServiceObj.Init()
 	return err
 }
 

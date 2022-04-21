@@ -3,6 +3,7 @@ package main
 import (
 	"sendMsg/logger"
 	_ "sendMsg/model"
+	_ "sendMsg/server/handler"
 	"sendMsg/server/manager"
 )
 
