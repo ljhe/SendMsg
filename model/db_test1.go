@@ -28,7 +28,7 @@ func GetTestModel() *TestModel {
 	return testModel
 }
 
-func (t *TestModel) Insert() error {
+func (t *TestModel) Insert(id int, name string) error {
 	data := &Test1{Name: "test2", Age: 18}
 	err := t.GetDbMap().Insert(data)
 	if err != nil {

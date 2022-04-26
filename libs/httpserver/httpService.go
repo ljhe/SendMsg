@@ -2,17 +2,33 @@ package httpserver
 
 import (
 	"encoding/json"
-	"io/ioutil"
 	"net/http"
+	"net/url"
 	"reflect"
 	"sendMsg/logger"
+	"strconv"
+)
+
+const (
+	successCode = 0
+	failCode    = 1
+	inputErr    = -1
 )
 
 type HttpService struct {
 	handler HTTPHandlerFunc
 }
 
-type HTTPHandlerFunc func(p interface{}) (interface{}, error)
+type Result struct {
+	Code int         `json:"code"`
+	Msg  string      `json:"msg"`
+	Data interface{} `json:"data"`
+}
+
+type HTTPHandlerFunc func(p *HttpParam) (interface{}, error)
+type HttpParam struct {
+	url.Values
+}
 
 var HttpServiceObj = getHttpService()
 var registerHandler = make(map[string]*HttpService)
@@ -21,23 +37,23 @@ func getHttpService() *HttpService {
 	return &HttpService{}
 }
 
+// TODO 验证并发是否能提高效率
 func (h *HttpService) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	var err error
-	var content []byte
+	var res = Result{}
+	var content *HttpParam
 	r.ParseForm()
-	if r.Method == "GET" {
-		content = []byte(r.Form.Get("content"))
-	} else if r.Method == "POST" {
-		content, _ = ioutil.ReadAll(r.Body)
-		defer r.Body.Close()
+	content = &HttpParam{
+		r.Form,
 	}
-	logger.Debug("这里是测试content:%v", content)
 	data, err := h.handler(content)
 	if err != nil {
+		res.Code = failCode
+		res.Msg = err.Error()
 		logger.Err("httpService|ServeHTTP h.handler err:%v", err)
-		return
 	}
-	bytes, err := Marshal(data)
+	res.Data = data
+	bytes, err := Marshal(res)
 	if err != nil {
 		logger.Err("httpService|ServeHTTP Marshal is err:%v", err)
 		return
@@ -49,6 +65,7 @@ func (h *HttpService) Init() error {
 	for path, handler := range registerHandler {
 		Handle(path, handler)
 	}
+	// TODO 接口待配置
 	return Start(":8080")
 }
 
@@ -77,4 +94,15 @@ func Unmarshal(data []byte, paramType reflect.Type) (interface{}, error) {
 		return nil, err
 	}
 	return param, nil
+}
+
+func (h *HttpParam) GetInt(v string) int {
+	if v == "" {
+		return inputErr
+	}
+	i, err := strconv.Atoi(h.Get(v))
+	if err != nil {
+		return inputErr
+	}
+	return i
 }
