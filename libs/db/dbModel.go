@@ -2,7 +2,7 @@ package db
 
 import (
 	"github.com/go-gorp/gorp"
-	"sendMsg/logger"
+	"sendMsg/libs/logger"
 )
 
 type modelMapStruct struct {

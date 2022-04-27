@@ -1,10 +1,10 @@
 package main
 
 import (
-	"sendMsg/logger"
-	_ "sendMsg/model"
+	"sendMsg/libs/logger"
 	_ "sendMsg/server/handler"
 	"sendMsg/server/manager"
+	_ "sendMsg/server/model"
 )
 
 func main() {

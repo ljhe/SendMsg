@@ -5,7 +5,7 @@ import (
 	"fmt"
 	// mysql驱动 必须引入
 	_ "github.com/go-sql-driver/mysql"
-	"sendMsg/logger"
+	"sendMsg/libs/logger"
 )
 
 func initDb(dataSourceName string) (*sql.DB, error) {

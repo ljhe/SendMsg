@@ -3,7 +3,7 @@ package manager
 import (
 	"fmt"
 	"runtime/debug"
-	"sendMsg/logger"
+	"sendMsg/libs/logger"
 	"strings"
 	"sync"
 	"time"

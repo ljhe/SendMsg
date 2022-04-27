@@ -2,7 +2,7 @@ package handler
 
 import (
 	"sendMsg/libs/httpserver"
-	"sendMsg/model"
+	"sendMsg/server/model"
 )
 
 func init() {

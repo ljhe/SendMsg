@@ -1,8 +1,8 @@
 package manager
 
 import (
-	"sendMsg/logger"
-	"sendMsg/manager"
+	"sendMsg/libs/logger"
+	"sendMsg/libs/manager"
 )
 
 type TestManager struct {

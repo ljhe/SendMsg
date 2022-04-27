@@ -1,6 +1,6 @@
 package manager
 
-import "sendMsg/manager"
+import "sendMsg/libs/manager"
 
 type ModuleManager struct {
 	*manager.DefaultModuleManager

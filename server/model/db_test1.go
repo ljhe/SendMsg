@@ -2,8 +2,8 @@ package model
 
 import (
 	"github.com/go-gorp/gorp"
-	"sendMsg/db"
-	"sendMsg/logger"
+	"sendMsg/libs/db"
+	"sendMsg/libs/logger"
 )
 
 type Test1 struct {

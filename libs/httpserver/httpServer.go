@@ -4,7 +4,7 @@ import (
 	"github.com/gorilla/mux"
 	"net"
 	"net/http"
-	"sendMsg/logger"
+	"sendMsg/libs/logger"
 	"sync"
 )
 

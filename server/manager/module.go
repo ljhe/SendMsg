@@ -3,9 +3,9 @@ package manager
 import (
 	"os"
 	"os/signal"
-	"sendMsg/db"
+	"sendMsg/libs/db"
 	"sendMsg/libs/httpserver"
-	"sendMsg/manager"
+	"sendMsg/libs/manager"
 	"syscall"
 )
 
