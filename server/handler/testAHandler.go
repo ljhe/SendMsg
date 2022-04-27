@@ -15,8 +15,9 @@ type Test struct {
 }
 
 func test(p *httpserver.HttpParam) (interface{}, error) {
-	id := p.GetInt("id")
-	name := p.Get("name")
-	model.GetTestModel().Insert(id, name)
+	for i := 0; i < 1000; i++ {
+		name := p.Get("name")
+		model.GetTestModel().Insert(i, name)
+	}
 	return nil, nil
 }

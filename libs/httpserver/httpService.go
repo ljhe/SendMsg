@@ -37,7 +37,6 @@ func getHttpService() *HttpService {
 	return &HttpService{}
 }
 
-// TODO 验证并发是否能提高效率
 func (h *HttpService) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	var err error
 	var res = Result{}
